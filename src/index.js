@@ -1,18 +1,8 @@
-import express from "express"
-import bodyParser from "body-parser"
+import http from 'http';
+import { app } from './app';
 
-const PORT = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 
-const app = express()
+const server = http.createServer(app);
 
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
-
-app.post("/", (req, res) => {
-  res.json(req.body)
-})
-
-app.listen(PORT, err => {
-  if (err) throw new Error(err)
-  console.log(`Server started on ${PORT}`)
-})
+server.listen(port);
