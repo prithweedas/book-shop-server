@@ -21,6 +21,7 @@ router.post("/", (req, res) => {
   const item = new Item({
     _id: mongoose.Types.ObjectId(),
     name: req.body.name,
+    publishYear: req.body.publishYear,
     price: req.body.price
   });
 
