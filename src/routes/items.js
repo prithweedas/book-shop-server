@@ -33,7 +33,7 @@ router.get("/:id", async (req, res, next) => {
 });
 
 router.post("/", authenticate, async (req, res, next) => {
-  const { name, price, publishYear, author, description, owner } = req.body;
+  const { name, price, publishYear, author, description, userId } = req.body;
   const item = new Item({
     _id: mongoose.Types.ObjectId(),
     name,
@@ -41,8 +41,9 @@ router.post("/", authenticate, async (req, res, next) => {
     price,
     author,
     description,
-    owner
+    owner : userId
   });
+  console.log(userId);
   try {
     const result = await item.save();
     res.status(201).json({
