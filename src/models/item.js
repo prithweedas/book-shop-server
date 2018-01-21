@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 
 const itemSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -7,12 +7,13 @@ const itemSchema = new mongoose.Schema({
     required: true
   },
   author: {
-    type: String,
-    required: true
+    type: String
+  },
+  description: {
+    type: String
   },
   publishYear: {
-    type: String,
-    required: true
+    type: String
   },
   price: {
     type: Number,
@@ -22,6 +23,6 @@ const itemSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   }
-});
+})
 
-export default mongoose.model("Item", itemSchema);
+export default mongoose.model("Item", itemSchema)
