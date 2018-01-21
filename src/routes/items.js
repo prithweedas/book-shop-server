@@ -1,8 +1,10 @@
-import express from 'express';
+import express from "express";
 
-export const router = express.Router();
+const router = express.Router();
 
 // GET: /items
-router.get('/', (req, res, next) => {
-    res.send(['item1', 'item2', 'item3']);
+router.get("/", (req, res, next) => {
+  res.send(["item1", "item2", "item3"]);
 });
+
+export default router;

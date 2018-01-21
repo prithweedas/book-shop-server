@@ -1,11 +1,12 @@
 {
   "name": "book-shop",
   "version": "1.0.0",
-  "description": "An online store to sell old books and educational instruments",
+  "description":
+    "An online store to sell old books and educational instruments",
   "main": "src\\index.js",
   "repository": "git@github.com:prithweedas/book-shop.git",
   "author": "Prithwee Das <prithweedas123@gmail.com>",
-  "license": "Apache License 2.0",
+  "license": "Apache-2.0",
   "scripts": {
     "start": "nodemon --exec babel-node src\\index.js"
   },
