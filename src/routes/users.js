@@ -55,7 +55,8 @@ router.post('/login', async (req, res, next) => {
 
     const result = jwtHelper.generateToken(user);
     res.header('token', result.token)
-      .header('token-expiresBy', result.expiresBy)
+      .header('token-expiresBy', result.TokenExpiresBy)
+      .header('refreshToken', result.refreshToken)
       .send({
         ok: true,
         user
