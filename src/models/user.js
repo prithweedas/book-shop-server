@@ -50,5 +50,12 @@ userSchema.post("save", (error, doc, next) => {
   } else next(error);
 });
 
+userSchema.methods.toJSON = function () {
+  const user = this.toObject();
+  delete user.password;
+  delete user.__v;
+  return user;
+}
+
 const User = mongoose.model("User", userSchema);
 export default User;

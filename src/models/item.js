@@ -30,4 +30,10 @@ const itemSchema = new mongoose.Schema({
   }
 });
 
+itemSchema.methods.toJSON = function () {
+  const item = this.toObject();
+  delete item.__v;
+  return item;
+}
+
 export default mongoose.model("Item", itemSchema);
