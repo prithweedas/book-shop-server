@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import morgan from "morgan";
 
 import itemRoutes from "./routes/items";
+import userRoutes from "./routes/users";
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(morgan("dev"));
 
 // all routes are below
 app.use("/items", itemRoutes);
+app.use("/users", userRoutes);
 
 // 404 route & Pass error to next
 app.use((req, res, next) => {

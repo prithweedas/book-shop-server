@@ -1,8 +1,12 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 const itemSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   name: {
+    type: String,
+    required: true
+  },
+  author: {
     type: String,
     required: true
   },
@@ -13,6 +17,10 @@ const itemSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: true
+  },
+  sold: {
+    type: Boolean,
+    default: false
   }
 });
 
