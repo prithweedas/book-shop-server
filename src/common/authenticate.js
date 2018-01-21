@@ -25,8 +25,8 @@ const authenticate = async (req, res, next) => {
     decodedToken = jwtHelper.getDecodedTokenIfValid(result.token);
   }
 
-  res.userId = decodedToken.userId;
-  res.email = decodedToken.email;
+  req.body.userId = decodedToken.userId;
+  req.body.email = decodedToken.email;
 
   next();
 }
