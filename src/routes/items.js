@@ -35,8 +35,8 @@ router.get("/:id", async (req, res, next) => {
 
 router.post(
   "/",
-  upload.single("image"),
   authenticate,
+  upload.single("image"),
   async (req, res, next) => {
     const {
       id,
