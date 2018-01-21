@@ -11,8 +11,7 @@ const generateToken = (user) => {
     }, JWT_SECRET, { expiresIn: expiresTime });
     return {
         token,
-        TokenExpiresBy: Date.now() + expiresTime,
-        refreshToken : generateRefreshToken(user),
+        TokenExpiresBy: Date.now() + expiresTime
     };
 };
 
@@ -24,5 +23,6 @@ const generateRefreshToken = (user) => {
 };
 
 module.exports = {
-    generateToken
+    generateToken,
+    generateRefreshToken
 }
