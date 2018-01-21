@@ -51,7 +51,7 @@ router.post("/", async (req, res) => {
   try {
     const result = await item.save();
     res.status(201).json({
-      ok: false,
+      ok: true,
       item: result
     });
   } catch (error) {
@@ -74,7 +74,7 @@ router.patch("/:id", async (req, res) => {
     res.status(200).json({ ok: true });
   } catch (error) {
     res.status(500).json({
-      ok: flase,
+      ok: false,
       error
     });
   }
