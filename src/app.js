@@ -1,12 +1,14 @@
 import express from "express";
 import bodyParser from "body-parser";
 import morgan from "morgan";
+import path from "path";
 
 import itemRoutes from "./routes/items";
 import userRoutes from "./routes/users";
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, "static")));
 app.use(bodyParser.json());
 app.use(morgan("dev"));
 
