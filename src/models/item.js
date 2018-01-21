@@ -27,7 +27,8 @@ const itemSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true
-  }
+  },
+  image: String
 });
 
 export default mongoose.model("Item", itemSchema);
