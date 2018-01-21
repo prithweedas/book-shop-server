@@ -35,7 +35,7 @@ router.post("/register", async (req, res, next) => {
     const result = await user.save();
     console.log(result);
     res.status(201).json({
-      ok: false,
+      ok: true,
       user: result
     });
   } catch (error) {
