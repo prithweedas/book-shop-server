@@ -45,9 +45,9 @@ router.post(
       publishYear,
       author,
       description,
-      userId,
       fileName
     } = req.body;
+    
     const item = new Item({
       _id: id,
       name,
@@ -55,7 +55,7 @@ router.post(
       price,
       author,
       description,
-      owner: userId,
+      owner: req.userId,
       image: `images/${fileName}`
     });
     try {
