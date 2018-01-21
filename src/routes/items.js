@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 
 import Item from "../models/item";
 import authenticate from "../common/authenticate";
+import upload from "../multer";
 
 const router = express.Router();
 
@@ -32,28 +33,42 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", authenticate, async (req, res, next) => {
-  const { name, price, publishYear, author, description, owner } = req.body;
-  const item = new Item({
-    _id: mongoose.Types.ObjectId(),
-    name,
-    publishYear,
-    price,
-    author,
-    description,
-    owner
-  });
-  console.log(userId);
-  try {
-    const result = await item.save();
-    res.status(201).json({
-      ok: true,
-      item: result
+router.post(
+  "/",
+  upload.single("image"),
+  authenticate,
+  async (req, res, next) => {
+    const {
+      id,
+      name,
+      price,
+      publishYear,
+      author,
+      description,
+      owner,
+      fileName
+    } = req.body;
+    const item = new Item({
+      _id: id,
+      name,
+      publishYear,
+      price,
+      author,
+      description,
+      owner,
+      image: `images/${fileName}`
     });
-  } catch (error) {
-    next(error);
+    try {
+      const result = await item.save();
+      res.status(201).json({
+        ok: true,
+        item: result
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.patch("/:id", authenticate, async (req, res, next) => {
   const id = req.params.id;
