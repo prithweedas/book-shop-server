@@ -3,10 +3,12 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
 import User from "../models/user";
+import throwNewHttpError from '../common/throwNewHttpError';
+import jwtHelper from '../common/jwtHelper';
 
 const router = express.Router();
 
-// GET: /items
+// GET: /users
 router.get("/:id", async (req, res, next) => {
   const id = req.params.id;
   try {
@@ -39,8 +41,30 @@ router.post("/register", async (req, res, next) => {
       user: result
     });
   } catch (error) {
-   next(error);
+    next(error);
   }
+});
+
+router.post('/login', async (req, res, next) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findByCredencials(email, password);
+    if (!user)
+      next(throwNewHttpError("wrong email or password", 400));
+
+    const result = jwtHelper.generateToken(user);
+    res.header('token', result.token)
+      .header('token-expiresBy', result.expiresBy)
+      .send({
+        ok: true,
+        user
+      });
+  }
+  catch (error) {
+    next(error);
+  }
+
 });
 
 export default router;

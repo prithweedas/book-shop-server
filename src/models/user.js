@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -30,6 +31,14 @@ const userSchema = new mongoose.Schema({
   }
 });
 
+
+userSchema.statics.findByCredencials = async function (email, password) {
+  const user = await User.findOne({ email });
+  if (!user) return null;
+  return (await bcrypt.compare(password, user.password)) ? user : null ;
+}
+
+
 userSchema.post('save', (error, doc, next) => {
   if (!error) next();
 
@@ -43,5 +52,5 @@ userSchema.post('save', (error, doc, next) => {
 
 });
 
-
-export default mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+export default User;
