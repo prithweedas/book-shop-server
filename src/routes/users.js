@@ -5,7 +5,7 @@ import _ from "lodash";
 
 import User from "../models/user";
 import throwNewHttpError from "../common/throwNewHttpError";
-import jwtHelper from "../common/jwtHelper";
+import * as jwtHelper from "../common/jwtHelper";
 
 const router = express.Router();
 
@@ -55,7 +55,8 @@ router.post("/login", async (req, res, next) => {
 
     const result = jwtHelper.generateToken(user);
     const refreshToken = jwtHelper.generateRefreshToken(user);
-    res.header({
+    res
+      .header({
         token: result.token,
         "token-expiresBy": result.TokenExpiresBy,
         refreshToken: refreshToken
