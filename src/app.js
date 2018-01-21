@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 
 // Error Handler
 app.use((error, req, res, next) => {
-  error = error || {}; 
+  error = error || {};
   res.status(error.status || (error.name == "ValidationError" ? 400 : 500));
   res.json({
     ok: false,

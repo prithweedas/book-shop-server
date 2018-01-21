@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
 const itemSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -28,6 +28,6 @@ const itemSchema = new mongoose.Schema({
     ref: "User",
     required: true
   }
-})
+});
 
-export default mongoose.model("Item", itemSchema)
+export default mongoose.model("Item", itemSchema);
