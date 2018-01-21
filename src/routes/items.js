@@ -5,7 +5,7 @@ import Item from "../models/item";
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
   try {
     const result = await Item.find().exec();
     res.status(200).json({
@@ -14,14 +14,11 @@ router.get("/", async (req, res) => {
       items: result
     });
   } catch (error) {
-    res.status(500).json({
-      ok: false,
-      error
-    });
+    next(error);
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
   const id = req.params.id;
   try {
     const result = await Item.findById(id).exec();
@@ -30,14 +27,11 @@ router.get("/:id", async (req, res) => {
       item: result
     });
   } catch (error) {
-    res.status(500).json({
-      ok: true,
-      error
-    });
+    next(error)
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   const { name, price, publishYear, author, description, owner } = req.body;
   const item = new Item({
     _id: mongoose.Types.ObjectId(),
@@ -55,14 +49,11 @@ router.post("/", async (req, res) => {
       item: result
     });
   } catch (error) {
-    res.status(500).json({
-      ok: false,
-      error
-    });
+    next(error);
   }
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", async (req, res, next) => {
   const id = req.params.id;
   const updateOptions = {};
   Object.keys(req.body).forEach(key => (updateOptions[key] = req.body[key]));
@@ -72,11 +63,9 @@ router.patch("/:id", async (req, res) => {
       { $set: updateOptions }
     ).exec();
     res.status(200).json({ ok: true });
-  } catch (error) {
-    res.status(500).json({
-      ok: false,
-      error
-    });
+  } 
+  catch (error) {
+    next(error);
   }
 });
 

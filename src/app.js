@@ -23,8 +23,10 @@ app.use((req, res, next) => {
 
 // Error Handler
 app.use((error, req, res, next) => {
-  res.status(error.status || 500);
+  error = error || {}; 
+  res.status(error.status || (error.name == "ValidationError" ? 400 : 500));
   res.json({
+    ok: false,
     error: {
       message: error.message || "Internal Server Error"
     }
