@@ -54,14 +54,15 @@ router.post('/login', async (req, res, next) => {
       next(throwNewHttpError("wrong email or password", 400));
 
     const result = jwtHelper.generateToken(user);
-    const refreshToken = jwtHelper.generateRefreshToken(user);
-    res.header('token', result.token)
-      .header('token-expiresBy', result.TokenExpiresBy)
-      .header('refreshToken', refreshToken)
-      .send({
-        ok: true,
-        user
-      });
+    const refreshToken = jwtHelper.generateRefreshToken(user._id);
+    res.set({
+      'token': result.token,
+      'token-expiresBy': result.TokenExpiresBy,
+      'refreshToken': refreshToken
+    }).send({
+      ok: true,
+      user
+    });
   }
   catch (error) {
     next(error);
