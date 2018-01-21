@@ -1,5 +1,5 @@
 import throwNewHttpError from "./throwNewHttpError";
-import jwtHelper from "./jwtHelper";
+import * as jwtHelper from "./jwtHelper";
 
 const authenticate = async (req, res, next) => {
   const token = req.header("token");
