@@ -19,14 +19,15 @@ router.get("/:id", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-  const { name, price, publishYear, author, description } = req.body
+  const { name, price, publishYear, author, description, owner } = req.body
   const item = new Item({
     _id: mongoose.Types.ObjectId(),
     name,
     publishYear,
     price,
     author,
-    description
+    description,
+    owner
   })
   try {
     const result = await item.save()
