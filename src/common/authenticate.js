@@ -16,9 +16,11 @@ const authenticate = async (req, res, next) => {
 
   if (!decodedToken) {
     const result = await jwtHelper.generateTokenByUserId(decodedRefreshToken.userId);
+    const refreshToken = await jwtHelper.generateRefreshToken(decodedRefreshToken.userId);
     res.set({
       'token': result.token,
-      'token-expiresBy': result.TokenExpiresBy
+      'token-expiresBy': result.TokenExpiresBy,
+      'refreshToken': refreshToken
     });
     decodedToken = jwtHelper.getDecodedTokenIfValid(result.token);
   }
