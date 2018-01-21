@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 import Item from "../models/item";
 import authenticate from "../common/authenticate";
-import upload from "../multer";
+import upload from "../common/multer";
 
 const router = express.Router();
 

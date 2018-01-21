@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "static", "images"));
+    cb(null, path.join(__dirname, "..", "static", "images"));
   },
   filename: (req, file, cb) => {
     const id = mongoose.Types.ObjectId();
