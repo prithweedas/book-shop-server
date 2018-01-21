@@ -12,6 +12,19 @@ app.use(express.static(path.join(__dirname, "static")));
 app.use(bodyParser.json());
 app.use(morgan("dev"));
 
+// CROS - For Now all allowed 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', '*');
+
+  if (req.method === 'OPTIONS') {
+      res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE');
+      return res.status(200).json({});
+  }
+  next();
+});
+
+
 // all routes are below
 app.use("/items", itemRoutes);
 app.use("/users", userRoutes);
