@@ -59,3 +59,7 @@ typings/
 
 # vs code settings
 .vscode
+
+# Static files
+
+src/static/images
