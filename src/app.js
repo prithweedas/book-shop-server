@@ -20,6 +20,7 @@ app.use((req, res, next) => {
 
   if (req.method === 'OPTIONS') {
       res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE');
+      res.header('Access-Control-Max-Age', 5*24*60*60); //5 days :D
       return res.status(200).json({});
   }
   next();
