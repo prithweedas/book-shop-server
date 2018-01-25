@@ -33,42 +33,43 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post(
-  "/",
-  authenticate,
-  upload.single("image"),
-  async (req, res, next) => {
-    const {
-      id,
-      name,
-      price,
-      publishYear,
-      author,
-      description,
-      fileName
-    } = req.body;
-    
-    const item = new Item({
-      _id: id,
-      name,
-      publishYear,
-      price,
-      author,
-      description,
-      owner: req.userId,
-      image: `images/${fileName}`
-    });
-    try {
-      const result = await item.save();
-      res.status(201).json({
-        ok: true,
-        item: result
+router.post("/", authenticate, (req, res, next) => {
+  upload(req, res, async err => {
+    if (err) {
+      next(err);
+    } else {
+      const {
+        id,
+        name,
+        price,
+        publishYear,
+        author,
+        description,
+        fileName
+      } = req.body;
+
+      const item = new Item({
+        _id: id,
+        name,
+        publishYear,
+        price,
+        author,
+        description,
+        owner: req.userId,
+        image: `images/${req.file.filename}`
       });
-    } catch (error) {
-      next(error);
+      try {
+        const result = await item.save();
+        res.status(201).json({
+          ok: true,
+          item: result
+        });
+      } catch (error) {
+        next(error);
+      }
     }
-  }
-);
+  });
+});
 
 router.patch("/:id", authenticate, async (req, res, next) => {
   const id = req.params.id;
