@@ -51,7 +51,7 @@ router.post("/login", async (req, res, next) => {
 
   try {
     const user = await User.findByCredencials(email, password);
-    if (!user) next(throwNewHttpError("wrong email or password", 400));
+    if (!user) return next(throwNewHttpError("wrong email or password", 400));
 
     const result = jwtHelper.generateToken(user);
     const refreshToken = jwtHelper.generateRefreshToken(user);
