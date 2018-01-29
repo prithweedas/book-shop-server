@@ -23,7 +23,9 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   const id = req.params.id;
   try {
-    const result = await Item.findById(id).exec();
+    const result = await Item.findById(id)
+      .populate("owner")
+      .exec();
     res.status(200).json({
       ok: true,
       item: result
