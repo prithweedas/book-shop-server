@@ -1,0 +1,6 @@
+{
+  "env": {
+    "MONGO_DB_CONNECTION_STRING": "mongodb://localhost/book_shop",
+    "PORT": 3000
+  }
+}
