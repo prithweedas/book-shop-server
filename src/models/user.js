@@ -66,5 +66,11 @@ userSchema.methods.toJSON = function () {
   return user;
 }
 
+userSchema.methods.toJSON = function() {
+  const user = this.toObject();
+  delete user.__v;
+  return user;
+};
+
 const User = mongoose.model("User", userSchema);
 export default User;
