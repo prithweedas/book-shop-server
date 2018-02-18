@@ -5,45 +5,29 @@ const authenticate = async (req, res, next) => {
   const token = req.header("token");
   const refreshToken = req.header("refreshToken");
 
-  const authResult = await checkAuthentication(token, refreshToken);
+  const authResult = await getAuthDetails(token, refreshToken);
 
   if (authResult.error) {
     return next(throwNewHttpError(authResult.error, 401));
   }
 
-  res.set({
-    token: authResult.token,
-    refreshToken: authResult.refreshToken
-  });
-
-  req.userId = authResult.userId;
-  req.userEmail = authResult.userEmail;
-
+  setAuthDeatilsToReqAndRes(req, res, authResult);
   next();
 };
 
-export const setAuthentication = async (req, res, next) => {
+export const checkAuthentication = async (req, res, next) => {
   const token = req.header("token");
   const refreshToken = req.header("refreshToken");
 
-  const authResult = await checkAuthentication(token, refreshToken);
+  const authResult = await getAuthDetails(token, refreshToken);
 
-  if (authResult.error) {
-    return next();
+  if (!authResult.error) {
+    setAuthDeatilsToReqAndRes(req, res, authResult);
   }
-
-  res.set({
-    token: authResult.token,
-    refreshToken: authResult.refreshToken
-  });
-
-  req.userId = authResult.userId;
-  req.userEmail = authResult.userEmail;
-
   next();
 };
 
-const checkAuthentication = async (token, refreshToken) => {
+const getAuthDetails = async (token, refreshToken) => {
   if (!token) return { error: "Token is not provided" };
 
   let decodedToken = jwtHelper.getDecodedTokenIfValid(token);
@@ -73,6 +57,16 @@ const checkAuthentication = async (token, refreshToken) => {
     userId: decodedToken.userId,
     userEmail: decodedToken.email
   };
+};
+
+const setAuthDeatilsToReqAndRes = (req, res, authResult) => {
+  res.set({
+    token: authResult.token,
+    refreshToken: authResult.refreshToken
+  });
+
+  req.userId = authResult.userId;
+  req.userEmail = authResult.userEmail;
 };
 
 export default authenticate;

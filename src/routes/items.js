@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 
 import Item from "../models/item";
-import authenticate, { setAuthentication } from "../common/authenticate";
+import authenticate, { checkAuthentication } from "../common/authenticate";
 import upload from "../common/multer";
 
 const router = express.Router();
@@ -33,7 +33,7 @@ router.get("/myItems", authenticate, async (req, res, next) => {
   }
 });
 
-router.get("/:id", setAuthentication, async (req, res, next) => {
+router.get("/:id", checkAuthentication, async (req, res, next) => {
   const id = req.params.id;
   try {
     let query = Item.findById(id);
