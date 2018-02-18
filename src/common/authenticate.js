@@ -34,4 +34,37 @@ const authenticate = async (req, res, next) => {
   next();
 };
 
+export const setAuthentication = async (req, res, next) => {
+  const token = req.header("token");
+  const refreshToken = req.header("refreshToken");
+
+  if (!token) return next();
+
+  let decodedToken = jwtHelper.getDecodedTokenIfValid(token);
+  const decodedRefreshToken = jwtHelper.getDecodedTokenIfValid(refreshToken);
+
+  if (!decodedToken && !decodedRefreshToken)
+    return next();
+
+  if (!decodedToken) {
+    const result = await jwtHelper.generateTokenByUserId(
+      decodedRefreshToken.userId
+    );
+    const refreshToken = await jwtHelper.generateRefreshToken(
+      decodedRefreshToken.userId
+    );
+    res.set({
+      token: result.token,
+      "token-expiresBy": result.TokenExpiresBy,
+      refreshToken: refreshToken
+    });
+    decodedToken = jwtHelper.getDecodedTokenIfValid(result.token);
+  }
+
+  req.userId = decodedToken.userId;
+  req.userEmail = decodedToken.email;
+
+  next();
+};
+
 export default authenticate;

@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 
 import Item from "../models/item";
-import authenticate from "../common/authenticate";
+import authenticate, { setAuthentication } from "../common/authenticate";
 import upload from "../common/multer";
 
 const router = express.Router();
@@ -33,12 +33,12 @@ router.get("/myItems", authenticate, async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", setAuthentication, async (req, res, next) => {
   const id = req.params.id;
   try {
-    const result = await Item.findById(id)
-      .populate("owner")
-      .exec();
+    let query = Item.findById(id);
+    if (req.userId) query = query.populate("owner");
+    const result = await query.exec();
     res.status(200).json({
       ok: true,
       item: result
