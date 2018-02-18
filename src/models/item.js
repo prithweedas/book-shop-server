@@ -23,6 +23,11 @@ const itemSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  createdAt: {
+    type: number,
+    default: Date.now(),
+    required: true
+  },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -31,10 +36,10 @@ const itemSchema = new mongoose.Schema({
   image: String
 });
 
-itemSchema.methods.toJSON = function () {
+itemSchema.methods.toJSON = function() {
   const item = this.toObject();
   delete item.__v;
   return item;
-}
+};
 
 export default mongoose.model("Item", itemSchema);
