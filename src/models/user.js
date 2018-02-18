@@ -12,11 +12,11 @@ const userSchema = new mongoose.Schema({
     required: true
   },
   phone: {
-    type: number,
+    type: Number,
     required: true,
     trim: true,
     validate: {
-      validator: v = new RegExp(/^(7|8|9)\d{9}$/).exec(v),
+      validator: v =>  new RegExp(/^(7|8|9)\d{9}$/).exec(v),
       message: "{VALUE} is not a valid phone no!"
     }
   },

@@ -24,7 +24,7 @@ const itemSchema = new mongoose.Schema({
     default: false
   },
   createdAt: {
-    type: number,
+    type: Number,
     default: Date.now(),
     required: true
   },
