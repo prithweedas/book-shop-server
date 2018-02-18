@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import Item from "../models/item";
 import authenticate, { checkAuthentication } from "../common/authenticate";
 import upload from "../common/multer";
+import throwNewHttpError from "../common/throwNewHttpError";
 
 const router = express.Router();
 
@@ -99,7 +100,13 @@ router.patch("/:id", authenticate, async (req, res, next) => {
   });
 
   try {
-    const result = await Item.update(
+    const itemResult = await Item.findById(id).exec();
+
+    if (!itemResult) return next(throwNewHttpError("Item Not Found", 404));
+    if (itemResult.owner != req.userId)
+      return next(throwNewHttpError("Permission Denied", 403));
+    
+      const result = await Item.update(
       { _id: id },
       { $set: updateValues }
     ).exec();
