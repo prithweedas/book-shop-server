@@ -20,6 +20,19 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get("/myItems", authenticate, async (req, res, next) => {
+  try {
+    const result = await Item.find({ owner: req.userId }).exec();
+    res.status(200).json({
+      ok: true,
+      itemCount: result.length,
+      items: result
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/:id", async (req, res, next) => {
   const id = req.params.id;
   try {
@@ -78,13 +91,13 @@ router.patch("/:id", authenticate, async (req, res, next) => {
   const id = req.params.id;
   const { name, price, publishYear, author, description, sold } = req.body;
   const updateValues = { name, price, publishYear, author, description, sold };
- 
-  // removing undefined or null key 
+
+  // removing undefined or null key
   Object.keys(updateValues).forEach(e => {
     if (updateValues[e] === undefined || updateValues[e] === null)
       delete updateValues[e];
   });
-  
+
   try {
     const result = await Item.update(
       { _id: id },
