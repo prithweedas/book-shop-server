@@ -58,6 +58,7 @@ router.post("/", authenticate, (req, res, next) => {
         author,
         description,
         owner: req.userId,
+        createdAt: Date.now(),
         image: `images/${req.file.filename}`
       });
       try {
@@ -75,9 +76,20 @@ router.post("/", authenticate, (req, res, next) => {
 
 router.patch("/:id", authenticate, async (req, res, next) => {
   const id = req.params.id;
-  const { sold } = req.body;
+  const { name, price, publishYear, author, description, sold } = req.body;
+  const updateValues = { name, price, publishYear, author, description, sold };
+ 
+  // removing undefined or null key 
+  Object.keys(updateValues).forEach(e => {
+    if (updateValues[e] === undefined || updateValues[e] === null)
+      delete updateValues[e];
+  });
+  
   try {
-    await Item.update({ _id: id }, { $set: { sold } }).exec();
+    const result = await Item.update(
+      { _id: id },
+      { $set: updateValues }
+    ).exec();
     res.status(200).json({ ok: true });
   } catch (error) {
     next(error);
